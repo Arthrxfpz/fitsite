@@ -28,6 +28,7 @@
     --violet-soft:#eeecfb;
     --red:#d0463a;
     --amber:#c8862a;
+    --amber-soft:#faf1e1;
 
     --radius-lg:20px;
     --radius-md:14px;
@@ -140,11 +141,13 @@
     .stat-box{padding:8px 4px;}
     .stat-val{font-size:13px;}
     .macro-row{gap:6px;}
+    .macro-field{flex:0 1 30%; min-width:0;}
     .macro-input{padding:6px 4px; font-size:12px;}
-    .macro-field label{font-size:9px;}
+    .macro-field label{font-size:8.5px;}
     .macro-summary{gap:6px;}
-    .macro-box{padding:8px 4px;}
-    .macro-val{font-size:13px;}
+    .macro-box{padding:7px 3px; flex:1 1 28%;}
+    .macro-val{font-size:12.5px;}
+    .macro-lbl{font-size:8.5px;}
     .tabs{width:100%;}
     .tab-btn{flex:1; text-align:center;}
     .topbar{width:100%;}
@@ -213,23 +216,42 @@
   .inline-btn.ghost{background:var(--surface); color:var(--text-2);}
 
   /* food list */
-  .food-list{margin-top:14px; display:flex; flex-direction:column; gap:6px; max-height:200px; overflow-y:auto;}
+  .food-list{margin-top:14px; display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto;}
   .food-item{
     display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px;
     background:var(--surface); animation: fade .3s var(--ease) both;
   }
   .food-item-main{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+  .food-name-row{display:flex; align-items:baseline; gap:6px;}
   .food-name{font-size:13px; font-weight:500;}
-  .food-macros{font-size:11px; color:var(--text-3);}
-  .food-macros b{color:var(--text-2); font-weight:600;}
+  .food-grams{font-size:11px; color:var(--text-3); flex-shrink:0;}
+  .food-macro-chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:4px;}
+  .food-macro-chip{
+    display:inline-flex; align-items:center; font-size:10.5px; font-weight:600;
+    border-radius:99px; padding:3px 9px; white-space:nowrap;
+  }
+  .food-macro-chip b{font-weight:700;}
   .food-cal{font-size:12.5px; color:var(--text-2); font-family:'Space Grotesk'; font-weight:600; flex-shrink:0;}
   .food-del{color:var(--text-3); opacity:0; transition:opacity .15s; flex-shrink:0;}
   .food-item:hover .food-del{opacity:1;}
   .empty-note{font-size:12.5px; color:var(--text-3); padding:10px 0; text-align:center;}
 
+  /* nutrients toggle + panel */
+  .nutri-toggle{
+    display:flex; align-items:center; justify-content:space-between; gap:6px; width:100%;
+    font-size:12px; font-weight:600; color:var(--text-2); padding:9px 2px; margin-top:6px;
+    border-top:1px dashed var(--border); transition:color .2s;
+  }
+  .nutri-toggle:hover{color:var(--text);}
+  .nutri-toggle svg{width:13px; height:13px; color:var(--text-3); transition:transform .25s var(--ease);}
+  .nutri-toggle.open svg{transform:rotate(180deg);}
+  .nutri-detail{max-height:0; overflow:hidden; transition:max-height .35s var(--ease);}
+  .nutri-detail.open{max-height:220px;}
+  .nutri-detail-inner{padding-top:2px;}
+
   /* macro inputs (grams) */
-  .macro-row{display:flex; gap:8px; margin-top:8px;}
-  .macro-field{flex:1; min-width:0;}
+  .macro-row{display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;}
+  .macro-field{flex:0 1 88px; min-width:70px;}
   .macro-field label{display:block; font-size:9.5px; color:var(--text-3); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px;}
   .macro-input{
     width:100%; background:var(--surface); border:1px solid var(--border); border-radius:9px;
@@ -238,11 +260,12 @@
   .macro-input:focus{border-color:var(--coral);}
 
   /* macro summary */
-  .macro-summary{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:14px;}
-  .macro-box{background:var(--surface); border-radius:10px; padding:10px 8px; text-align:center;}
+  .macro-summary{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .macro-box{background:var(--surface); border-radius:10px; padding:9px 6px; text-align:center; flex:1 1 30%; min-width:64px;}
   .macro-dot{width:6px; height:6px; border-radius:99px; display:inline-block; margin-right:5px;}
-  .macro-val{font-family:'Space Grotesk'; font-size:14px; font-weight:600;}
-  .macro-lbl{font-size:10px; color:var(--text-3); margin-top:2px; text-transform:uppercase; letter-spacing:.03em;}
+  .macro-val{font-family:'Space Grotesk'; font-size:13.5px; font-weight:600;}
+  .macro-lbl{font-size:9.5px; color:var(--text-3); margin-top:2px; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;}
+
 
   /* weight */
   .weight-input-row{display:flex; align-items:flex-end; gap:10px; margin-top:4px; flex-wrap:wrap;}
@@ -296,9 +319,16 @@
   .h-chev{color:var(--text-3); transition:transform .25s var(--ease);}
   .h-chev.open{transform:rotate(180deg);}
   .h-detail{max-height:0; overflow:hidden; transition:max-height .35s var(--ease);}
-  .h-detail.open{max-height:300px; margin-top:12px;}
-  .h-foods{display:flex; flex-direction:column; gap:5px; padding-top:10px; border-top:1px solid var(--surface);}
+  .h-detail.open{max-height:2000px; margin-top:12px;}
+  .h-day-totals{padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid var(--surface);}
+  .h-day-totals-label{font-size:10.5px; color:var(--text-3); text-transform:uppercase; letter-spacing:.04em; font-weight:600; display:block; margin-bottom:8px;}
+  .h-foods{display:flex; flex-direction:column; gap:10px; padding-top:10px; border-top:1px solid var(--surface);}
   .h-food-row{display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-2);}
+  .h-food-item{display:flex; flex-direction:column; gap:4px;}
+  .h-food-top{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .h-food-top .h-food-name{font-size:12.5px; font-weight:500; color:var(--text);}
+  .h-food-grams{font-size:11px; color:var(--text-3); margin-left:5px;}
+  .h-food-cal{font-size:12.5px; color:var(--text-2); font-family:'Space Grotesk'; font-weight:600; flex-shrink:0;}
 
   .empty-state{
     text-align:center; padding:60px 20px; color:var(--text-3);
@@ -409,31 +439,55 @@
         <div class="bar-track"><div class="bar-fill" id="calBar" style="background:var(--coral)"></div></div>
 
         <div class="inline-form">
-          <input class="inline-input" id="foodName" placeholder="Nome do alimento" maxlength="40" style="flex:2 1 120px; width:auto;">
-          <input class="inline-input" id="foodCal" placeholder="kcal" type="number" min="0" style="flex:1 1 60px; width:auto; max-width:80px;">
-          <button class="inline-btn" id="foodAddBtn" style="flex-shrink:0">Adicionar</button>
+          <input class="inline-input" id="foodName" placeholder="Nome do alimento" maxlength="40" style="flex:2 1 140px; width:auto;">
+          <input class="inline-input" id="foodGrams" placeholder="peso (g)" type="number" min="0" step="1" style="flex:1 1 70px; width:auto; max-width:90px;">
         </div>
-        <div class="macro-row">
-          <div class="macro-field">
-            <label for="foodProtein">Proteína (g)</label>
-            <input class="macro-input" id="foodProtein" type="number" min="0" step="0.1" placeholder="0">
-          </div>
-          <div class="macro-field">
-            <label for="foodCarbs">Carboidrato (g)</label>
-            <input class="macro-input" id="foodCarbs" type="number" min="0" step="0.1" placeholder="0">
-          </div>
-          <div class="macro-field">
-            <label for="foodFat">Gordura (g)</label>
-            <input class="macro-input" id="foodFat" type="number" min="0" step="0.1" placeholder="0">
+        <div class="inline-form" style="margin-top:8px;">
+          <input class="inline-input" id="foodCal" placeholder="kcal" type="number" min="0" style="flex:1 1 70px; width:auto; max-width:100px;">
+          <button class="inline-btn" id="foodAddBtn" style="flex-shrink:0; margin-left:auto;">Adicionar</button>
+        </div>
+
+        <button type="button" class="nutri-toggle" id="nutriToggle">
+          <span>Detalhes nutricionais (opcional)</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nutri-detail" id="nutriDetail">
+          <div class="nutri-detail-inner">
+            <div class="macro-row">
+              <div class="macro-field">
+                <label for="foodProtein">Proteína (g)</label>
+                <input class="macro-input" id="foodProtein" type="number" min="0" step="0.1" placeholder="0">
+              </div>
+              <div class="macro-field">
+                <label for="foodCarbs">Carboidrato (g)</label>
+                <input class="macro-input" id="foodCarbs" type="number" min="0" step="0.1" placeholder="0">
+              </div>
+              <div class="macro-field">
+                <label for="foodFat">Gordura (g)</label>
+                <input class="macro-input" id="foodFat" type="number" min="0" step="0.1" placeholder="0">
+              </div>
+            </div>
+            <div class="macro-row">
+              <div class="macro-field">
+                <label for="foodSugar">Açúcar (g)</label>
+                <input class="macro-input" id="foodSugar" type="number" min="0" step="0.1" placeholder="0">
+              </div>
+              <div class="macro-field">
+                <label for="foodFiber">Fibra (g)</label>
+                <input class="macro-input" id="foodFiber" type="number" min="0" step="0.1" placeholder="0">
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="food-list" id="foodList"></div>
 
         <div class="macro-summary" id="macroSummary">
-          <div class="macro-box"><div class="macro-val num" id="sumProtein">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--blue)"></span>proteína</div></div>
-          <div class="macro-box"><div class="macro-val num" id="sumCarbs">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--amber)"></span>carboidrato</div></div>
-          <div class="macro-box"><div class="macro-val num" id="sumFat">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--coral)"></span>gordura</div></div>
+          <div class="macro-box"><div class="macro-val num" id="sumProtein">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--blue)"></span>proteínas</div></div>
+          <div class="macro-box"><div class="macro-val num" id="sumCarbs">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--amber)"></span>carboidratos</div></div>
+          <div class="macro-box"><div class="macro-val num" id="sumFat">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--coral)"></span>gorduras</div></div>
+          <div class="macro-box"><div class="macro-val num" id="sumSugar">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--violet)"></span>açúcares</div></div>
+          <div class="macro-box"><div class="macro-val num" id="sumFiber">0g</div><div class="macro-lbl"><span class="macro-dot" style="background:var(--teal)"></span>fibras</div></div>
         </div>
 
         <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--surface); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -679,6 +733,23 @@
     document.getElementById('waterSub').textContent = pct >= 100 ? 'meta atingida — parabéns! 🎉' : 'meta diária de hidratação';
   }
 
+  const MACRO_META = {
+    protein: { label:'Proteínas', color:'var(--blue)',  bg:'var(--blue-soft)'  },
+    carbs:   { label:'Carboidratos', color:'var(--amber)', bg:'var(--amber-soft)' },
+    fat:     { label:'Gorduras', color:'var(--coral)', bg:'var(--coral-soft)' },
+    sugar:   { label:'Açúcares', color:'var(--violet)', bg:'var(--violet-soft)' },
+    fiber:   { label:'Fibras',   color:'var(--teal)',  bg:'var(--teal-soft)'  }
+  };
+  function macroChipsHtml(f){
+    const chips = ['protein','carbs','fat','sugar','fiber']
+      .filter(k => f[k])
+      .map(k => {
+        const m = MACRO_META[k];
+        return `<span class="food-macro-chip" style="background:${m.bg}; color:${m.color}"><b>${fmtG(f[k])}g</b>&nbsp;${m.label}</span>`;
+      });
+    return chips.length ? `<div class="food-macro-chips">${chips.join('')}</div>` : '';
+  }
+
   function renderCalories(){
     document.getElementById('calVal').innerHTML = today.foods.reduce((a,f)=>a+f.cal,0) + '<span> kcal</span>';
     document.getElementById('calGoalLbl').textContent = config.calorieGoal;
@@ -693,15 +764,15 @@
       list.innerHTML = '<div class="empty-note">Nenhum alimento registrado ainda</div>';
     } else {
       list.innerHTML = today.foods.slice().reverse().map(f => {
-        const macroBits = [];
-        if(f.protein) macroBits.push(`<b>${fmtG(f.protein)}g</b> P`);
-        if(f.carbs) macroBits.push(`<b>${fmtG(f.carbs)}g</b> C`);
-        if(f.fat) macroBits.push(`<b>${fmtG(f.fat)}g</b> G`);
-        const macrosLine = macroBits.length ? `<div class="food-macros">${macroBits.join(' · ')}</div>` : '';
+        const macrosLine = macroChipsHtml(f);
+        const gramsTag = f.grams ? `<span class="food-grams">${fmtG(f.grams)}g</span>` : '';
         return `
         <div class="food-item">
           <div class="food-item-main">
-            <span class="food-name">${escapeHtml(f.name)}</span>
+            <div class="food-name-row">
+              <span class="food-name">${escapeHtml(f.name)}</span>
+              ${gramsTag}
+            </div>
             ${macrosLine}
           </div>
           <span class="food-cal">${f.cal} kcal</span>
@@ -715,9 +786,13 @@
     const totalProtein = today.foods.reduce((a,f)=>a+(f.protein||0),0);
     const totalCarbs = today.foods.reduce((a,f)=>a+(f.carbs||0),0);
     const totalFat = today.foods.reduce((a,f)=>a+(f.fat||0),0);
+    const totalSugar = today.foods.reduce((a,f)=>a+(f.sugar||0),0);
+    const totalFiber = today.foods.reduce((a,f)=>a+(f.fiber||0),0);
     document.getElementById('sumProtein').textContent = fmtG(totalProtein)+'g';
     document.getElementById('sumCarbs').textContent = fmtG(totalCarbs)+'g';
     document.getElementById('sumFat').textContent = fmtG(totalFat)+'g';
+    document.getElementById('sumSugar').textContent = fmtG(totalSugar)+'g';
+    document.getElementById('sumFiber').textContent = fmtG(totalFiber)+'g';
   }
   function fmtG(n){ return (Math.round(n*10)/10).toString().replace('.', ','); }
 
@@ -800,6 +875,22 @@
   }
 
   /* ---------------- history tab ---------------- */
+  function macroSummaryHtml(foods){
+    const totals = { protein:0, carbs:0, fat:0, sugar:0, fiber:0 };
+    (foods||[]).forEach(f=>{
+      totals.protein += f.protein||0;
+      totals.carbs += f.carbs||0;
+      totals.fat += f.fat||0;
+      totals.sugar += f.sugar||0;
+      totals.fiber += f.fiber||0;
+    });
+    const boxes = ['protein','carbs','fat','sugar','fiber'].map(k=>{
+      const m = MACRO_META[k];
+      return `<div class="macro-box"><div class="macro-val num">${fmtG(totals[k])}g</div><div class="macro-lbl"><span class="macro-dot" style="background:${m.color}"></span>${m.label.toLowerCase()}</div></div>`;
+    });
+    return `<div class="macro-summary">${boxes.join('')}</div>`;
+  }
+
   async function renderHistory(){
     const listEl = document.getElementById('historyList');
     const keys = await storeListDays();
@@ -824,12 +915,15 @@
       const dateLabel = dt.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
       const foodsHtml = (e.data.foods||[]).length
         ? (e.data.foods||[]).map(f=>{
-            const bits = [];
-            if(f.protein) bits.push(`${fmtG(f.protein)}g P`);
-            if(f.carbs) bits.push(`${fmtG(f.carbs)}g C`);
-            if(f.fat) bits.push(`${fmtG(f.fat)}g G`);
-            const macroTag = bits.length ? ` <span style="color:var(--text-3)">(${bits.join(' · ')})</span>` : '';
-            return `<div class="h-food-row"><span>${escapeHtml(f.name)}${macroTag}</span><span>${f.cal} kcal</span></div>`;
+            const gramsTag = f.grams ? `<span class="h-food-grams">${fmtG(f.grams)}g</span>` : '';
+            return `
+            <div class="h-food-item">
+              <div class="h-food-top">
+                <span class="h-food-name">${escapeHtml(f.name)}${gramsTag}</span>
+                <span class="h-food-cal">${f.cal} kcal</span>
+              </div>
+              ${macroChipsHtml(f)}
+            </div>`;
           }).join('')
         : '<div class="h-food-row"><span>Nenhum alimento registrado</span></div>';
       return `
@@ -857,6 +951,10 @@
           </div>
         </div>
         <div class="h-detail" data-detail="${e.key}">
+          ${(e.data.foods||[]).length ? `<div class="h-day-totals">
+            <span class="h-day-totals-label">Total nutricional do dia</span>
+            ${macroSummaryHtml(e.data.foods)}
+          </div>` : ''}
           <div class="h-foods">${foodsHtml}</div>
         </div>
       </div>`;
@@ -914,27 +1012,39 @@
   async function addFood(){
     const nameEl = document.getElementById('foodName');
     const calEl = document.getElementById('foodCal');
+    const gramsEl = document.getElementById('foodGrams');
     const proteinEl = document.getElementById('foodProtein');
     const carbsEl = document.getElementById('foodCarbs');
     const fatEl = document.getElementById('foodFat');
+    const sugarEl = document.getElementById('foodSugar');
+    const fiberEl = document.getElementById('foodFiber');
     const name = nameEl.value.trim();
     const cal = parseFloat(calEl.value);
     if(!name || !cal || cal <= 0) return;
+    const grams = Math.max(0, parseFloat(gramsEl.value) || 0);
     const protein = Math.max(0, parseFloat(proteinEl.value) || 0);
     const carbs = Math.max(0, parseFloat(carbsEl.value) || 0);
     const fat = Math.max(0, parseFloat(fatEl.value) || 0);
+    const sugar = Math.max(0, parseFloat(sugarEl.value) || 0);
+    const fiber = Math.max(0, parseFloat(fiberEl.value) || 0);
     today.foods.push({
       id: Date.now()+'_'+Math.random().toString(36).slice(2,7),
-      name, cal: Math.round(cal), protein, carbs, fat
+      name, cal: Math.round(cal), grams, protein, carbs, fat, sugar, fiber
     });
-    nameEl.value=''; calEl.value=''; proteinEl.value=''; carbsEl.value=''; fatEl.value='';
+    nameEl.value=''; calEl.value=''; gramsEl.value='';
+    proteinEl.value=''; carbsEl.value=''; fatEl.value=''; sugarEl.value=''; fiberEl.value='';
     nameEl.focus();
     renderCalories();
     await storeSet('day:'+todayKey, today);
   }
   document.getElementById('foodAddBtn').addEventListener('click', addFood);
-  ['foodCal','foodName','foodProtein','foodCarbs','foodFat'].forEach(id=>{
+  ['foodCal','foodName','foodGrams','foodProtein','foodCarbs','foodFat','foodSugar','foodFiber'].forEach(id=>{
     document.getElementById(id).addEventListener('keydown', e=>{ if(e.key==='Enter') addFood(); });
+  });
+
+  document.getElementById('nutriToggle').addEventListener('click', (e)=>{
+    e.currentTarget.classList.toggle('open');
+    document.getElementById('nutriDetail').classList.toggle('open');
   });
 
   document.getElementById('foodList').addEventListener('click', async (e)=>{
